@@ -1,5 +1,5 @@
 {{-- menampilkan error validasi --}}
-@if (count($errors) > 0)
+{{-- @if (count($errors) > 0)
 <div class="alert alert-danger alert-dismissible show fade">
     <div class="alert-body">
         <button class="close" data-dismiss="alert">
@@ -12,7 +12,7 @@
         </ul>
     </div>
 </div>
-@endif
+@endif --}}
 
 @if ($message = Session::get('error'))
 <div class="alert alert-danger alert-block">

@@ -37,8 +37,10 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
+                    <div class="row mb-2 mr-4 ml-4">
+                        @yield('content-header')
                     </div>
+
                 </div><!-- /.container-fluid -->
             </section>
 

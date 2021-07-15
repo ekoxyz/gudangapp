@@ -2,14 +2,15 @@
 @section('title', 'Users')
 @section('styles')
 <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 <style>
-    .select2-selection__choice {
+    /* .select2-selection__choice {
         color: #495057 !important
     }
 
     .select2 {
         width: 100% !important;
-    }
+    } */
 
 </style>
 @endsection
@@ -89,7 +90,8 @@
                     </div>
                     <div class="form-group">
                         <label for="roles">Roles</label>
-                        <select name="roles[]" id="roles" class="form-control select2" multiple="multiple">
+                        <select name="roles[]" id="roles" class="select2bs4" multiple="multiple"
+                            data-placeholder="Select Roles ..." style="width: 100%;">
                             @foreach ($roles as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -112,9 +114,12 @@
 <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('.select2').select2({
-            placeholder: 'Select a Permissions'
-        });
+        $('.select2').select2();
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
     });
+
 </script>
 @endpush

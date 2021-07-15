@@ -2,48 +2,63 @@
 @section('title', 'Categories')
 @section('styles')
 <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
-<style>
-    .select2-selection__choice {
-        color: #495057 !important
-    }
+<link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+@endsection
 
-    .select2 {
-        width: 100% !important;
-    }
-
-</style>
+@section('content-header')
+<div class="col-sm-6">
+    <h1>Category</h1>
+</div>
+<div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+        <li class="breadcrumb-item active">Category</li>
+    </ol>
+</div>
 @endsection
 
 @section('content')
 @include('layouts.messages')
 <div class="row py-4 mr-4 ml-4">
-    <div class="col-md-8">
+    <div class="col-8">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Users</h3>
-                <div class="card-tools">
-                    <ul class="pagination pagination-sm float-right">
-                    </ul>
-                </div>
+                <h3 class="card-title">Kategori</h3>
             </div>
-            <!-- /.card-header -->
+            <!-- ./card-header -->
             <div class="card-body p-0">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th style="width: 10px">#</th>
-                            <th>Image</th>
-                            <th>Nama</th>
-                            <th>slug</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <table class="table table-hover">
                     <tbody>
+                        @foreach ($parentCategory as $item)
+                        @if (!count($item->children))
+                        <tr>
+                            <td>
+                                {{ $item->name }}
+                            </td>
+                        </tr>
+                        @else
+                        <tr data-widget="expandable-table" aria-expanded="false">
+                            <td>
+                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                {{ $item->name }}
+                            </td>
+                        </tr>
+                        <tr class="expandable-body d-none">
+                            <td>
+                                <div class="p-0" style="display: none;">
+                                    @include('admin.categories.child', ['childs'=> $item->children])
+                                </div>
+                            </td>
+                        </tr>
+                        @endif
+                        @endforeach
+
                     </tbody>
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
+        <!-- /.card -->
     </div>
     <div class="col-md-4">
         @can('create user')
@@ -63,7 +78,9 @@
                     </div>
                     <div class="form-group">
                         <label for="parent_id">Parent Kategori</label>
-                        <select name="parent_id[]" id="parent_id" class="form-control select2" multiple="multiple">
+                        <select name="parent_id" id="parent_id" class="form-control select2bs4"
+                            style="max-width: 100% !important">
+                            <option value="" disabled selected>Chosee Option</option>
                             @foreach ($categories as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -83,15 +100,15 @@
 </div>
 @endsection
 
-@push('script')
+@push('scripts')
 <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('.select2').select2({
-            placeholder: 'Select a Permissions'
-        });
+        $('.select2').select2();
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
     });
+
 </script>
 @endpush
-
-
