@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name')}} &mdash; @yield('title') </title>
+    <title>{{ config('app.name')}} | @yield('title') </title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -40,7 +40,6 @@
                     <div class="row mb-2 mr-4 ml-4">
                         @yield('content-header')
                     </div>
-
                 </div><!-- /.container-fluid -->
             </section>
 

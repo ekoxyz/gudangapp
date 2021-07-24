@@ -21,8 +21,6 @@ class CategoryController extends Controller
         $request->validate([
             'name'=>['required','max:64','min:3', 'unique:categories,name'],
         ]);
-        $name = $request->name;
-
         $newCategory = new Category();
         $newCategory->name = $request->name;
         $newCategory->slug = Str::slug($request->name);
@@ -31,5 +29,28 @@ class CategoryController extends Controller
         }
         $newCategory->save();
         return back()->with('success', 'Tambah Kategori Berhasil!');
+    }
+
+    public function update(Request $request, Category $category)
+    {
+
+        /**
+         * TODO
+         * request data categories baru yang akan di jadikan parent, adalah yang bukan menjadi children nya.
+         *
+         */
+        $request->validate([
+            'name_edit'=>['required','max:64','min:3', 'unique:categories,name'],
+        ]);
+        $category->name = $request->name_edit;
+        $category->slug = Str::slug($request->name_edit);
+        if ($request->parent_id_edit) {
+            $category->parent_id = $request->parent_id_edit;
+        }
+        return $category;
+    }
+    public function destroy(Category $category)
+    {
+        return $category;
     }
 }
