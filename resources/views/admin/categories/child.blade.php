@@ -7,21 +7,21 @@
                 {{ $item->name }}
             </td>
             <td class="cell-action">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-edit" data-toggle="modal" data-target="#modal-edit"
-                        data-id="{{ $item }}" data-all="{{ $categories }}">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                    <a href="{{ route('categories.destroy', $item) }}" class="btn btn-danger" onclick="event.preventDefault();
-                    document.getElementById('delete-form').submit();">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                    <form id="delete-form" action="{{ route('categories.destroy', $item) }}" method="POST"
-                        class="d-none" onsubmit="return confirm('Delete this User Permanently?')">
-                        @csrf
-                        @method('delete')
-                    </form>
-                </div>
+                <form id="delete-form" action="{{ route('categories.destroy', $item) }}" method="POST"
+                    class="" onsubmit="return confirm('Delete this User Permanently?')">
+                    @csrf
+                    @method('delete')
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-edit" data-toggle="modal"
+                            data-target="#modal-edit" data-id="{{ $item }}"
+                            data-all="{{ $categories }}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </form>
             </td>
         </tr>
         @else
@@ -31,21 +31,21 @@
                 {{ $item->name }}
             </td>
             <td class="cell-action">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-edit" data-toggle="modal" data-target="#modal-edit"
-                        data-id="{{ $item }}" data-all="{{ $categories }}">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                    <a href="{{ route('categories.destroy', $item) }}" class="btn btn-danger" onclick="event.preventDefault();
-                    document.getElementById('delete-form').submit();">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                    <form id="delete-form" action="{{ route('categories.destroy', $item) }}" method="POST"
-                        class="d-none" onsubmit="return confirm('Delete this User Permanently?')">
-                        @csrf
-                        @method('delete')
-                    </form>
-                </div>
+                <form id="delete-form" action="{{ route('categories.destroy', $item) }}" method="POST"
+                    class="" onsubmit="return confirm('Delete this User Permanently?')">
+                    @csrf
+                    @method('delete')
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-edit" data-toggle="modal"
+                            data-target="#modal-edit" data-id="{{ $item }}"
+                            data-all="{{ $categories }}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </form>
             </td>
         </tr>
         <tr class="expandable-body d-none">

@@ -35,7 +35,7 @@ class CategoryController extends Controller
     {
 
         /**
-         * TODO
+         * TODO:
          * request data categories baru yang akan di jadikan parent, adalah yang bukan menjadi children nya.
          *
          */
@@ -47,10 +47,12 @@ class CategoryController extends Controller
         if ($request->parent_id_edit) {
             $category->parent_id = $request->parent_id_edit;
         }
-        return $category;
+        $category->update();
+        return back()->with('success', 'Update Kategori Berhasil!');
     }
     public function destroy(Category $category)
     {
-        return $category;
+        $category->delete();
+        return back()->with('success', 'Hapus Kategori Berhasil!');
     }
 }
