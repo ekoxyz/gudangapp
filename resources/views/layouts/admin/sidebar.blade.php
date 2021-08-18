@@ -31,9 +31,15 @@
                 </li>
                 <li class="nav-header">PRODUCTS</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link {{ set_active('') }}">
+                    <a href="{{ route('products.create') }}" class="nav-link {{ set_active('products.create') }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Upload Product</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('products.index') }}" class="nav-link {{ set_active(['products.index','products.edit']) }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Daftar Product</p>
                     </a>
                 </li>
                 <li class="nav-item">

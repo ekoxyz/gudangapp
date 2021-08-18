@@ -61,4 +61,9 @@ Route::prefix('/admin')->middleware(['auth','verified'])->group(function () {
      * CATEGORIES
      */
     Route::resource('/categories', Admin\CategoryController::class)->middleware(['role:super-admin|admin']);
+
+    /**
+     * PRODUCTS
+     */
+    Route::resource('products', Admin\ProductController::class);
 });
