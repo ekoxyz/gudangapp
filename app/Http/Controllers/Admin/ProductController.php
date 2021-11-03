@@ -103,6 +103,7 @@ class ProductController extends Controller
         ]);
 
         $product->name = $request->name;
+        $product->sku = $request->sku;
         $product->category_id = $request->category_id;
         $product->description = $request->description;
         $product->price = $request->price;

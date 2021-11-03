@@ -25,14 +25,20 @@
             <div class="card-header">
                 <h3 class="card-title">Tambah Produk</h3>
             </div>
-            <!-- /.card-header -->
-            <!-- form start -->
             <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="form-group">
                         <label for="SKU">SKU</label>
-                        <input type="text" class="form-control" id="SKU" name="sku" placeholder="Stock Keeping Unit">
+                        <div class="input-group mb-3">
+                            <input type="text" id="sku" name="sku" class="form-control"
+                                placeholder="Klik tombol untuk generate" aria-label="Klik tombol untuk generate"
+                                aria-describedby="btn-generate-sku">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-info" type="button"
+                                    id="btn-generate-sku">Generate</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Nama Produk</label>
@@ -41,15 +47,21 @@
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea name="description" id="description" class="form-control" cols="30" rows="6"
-                            placeholder="lorem ...."></textarea>
+                            placeholder="terkait spek produk ..."></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="price">Harga</label>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="lorem ....">
-                    </div>
-                    <div class="form-group">
-                        <label for="stock">Stok</label>
-                        <input type="number" class="form-control" id="stock" name="stock" placeholder="lorem ....">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="price">Harga</label>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="harga isikan angka ...">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock">Stok</label>
+                                <input type="number" class="form-control" id="stock" name="stock" placeholder="isikan berupa angka ...">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="category">Kategori</label>
@@ -70,13 +82,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
                 </div>
-                <!-- /.card-body -->
-
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -98,6 +104,24 @@
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     });
+
+</script>
+{{-- FOR GENERATE RANDOM STRING SKU --}}
+<script>
+    $('#btn-generate-sku').click(function () {
+        let sku = randomString(10);
+        $('#sku').val(sku);
+    });
+
+    function randomString(length) {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                characters.length));
+        }
+        return result;
+    }
 
 </script>
 @endpush

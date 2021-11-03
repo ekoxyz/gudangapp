@@ -25,16 +25,21 @@
             <div class="card-header">
                 <h3 class="card-title">Edit Produk</h3>
             </div>
-            <!-- /.card-header -->
-            <!-- form start -->
             <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card-body">
                     <div class="form-group">
                         <label for="SKU">SKU</label>
-                        <input type="text" class="form-control" id="SKU" name="sku" placeholder="Stock Keeping Unit"
-                            value="{{ $product->sku }}" readonly>
+                        <div class="input-group mb-3">
+                            <input type="text" id="sku" name="sku" class="form-control"
+                                placeholder="Klik tombol untuk generate" aria-label="Klik tombol untuk generate"
+                                aria-describedby="btn-generate-sku" value="{{ $product->sku }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-info" type="button"
+                                    id="btn-generate-sku">Generate</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Nama Produk</label>
@@ -46,15 +51,21 @@
                         <textarea name="description" id="description" class="form-control" cols="30" rows="6"
                             placeholder="lorem ....">{{ $product->description }}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="price">Harga</label>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="lorem ...."
-                            value="{{ $product->price }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="stock">Stok</label>
-                        <input type="number" class="form-control" id="stock" name="stock" placeholder="lorem ...."
-                            value="{{ $product->stock }}">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="price">Harga</label>
+                                <input type="number" class="form-control" id="price" name="price"
+                                    placeholder="lorem ...." value="{{ $product->price }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="stock">Stok</label>
+                                <input type="number" class="form-control" id="stock" name="stock"
+                                    placeholder="lorem ...." value="{{ $product->stock }}">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="category_id">Kategori</label>
@@ -73,8 +84,10 @@
                             <div class="form-group">
                                 <label>Status</label>
                                 <select class="form-control" name="status">
-                                    <option value="PRODUCT_PUBLISHED" {{$product->status == 'PRODUCT_PUBLISHED' ? 'selected' : ''}} >Publish</option>
-                                    <option value="PRODUCT_ARCHIVED" {{$product->status == 'PRODUCT_PUBLISHED' ? 'selected' : ''}}>Arsipkan</option>
+                                    <option value="PRODUCT_PUBLISHED"
+                                        {{$product->status == 'PRODUCT_PUBLISHED' ? 'selected' : ''}}>Publish</option>
+                                    <option value="PRODUCT_ARCHIVED"
+                                        {{$product->status == 'PRODUCT_PUBLISHED' ? 'selected' : ''}}>Arsipkan</option>
                                 </select>
                             </div>
                         </div>
@@ -90,9 +103,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success">Submit</button>
                     <a href="{{ route('products.index') }}" class="ml-4 text-gray">Cancel</a>
@@ -115,6 +126,23 @@
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     });
+
+</script>
+<script>
+    $('#btn-generate-sku').click(function () {
+        let sku = randomString(10);
+        $('#sku').val(sku);
+    });
+
+    function randomString(length) {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                characters.length));
+        }
+        return result;
+    }
 
 </script>
 @endpush
