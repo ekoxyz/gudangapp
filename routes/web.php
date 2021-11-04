@@ -71,4 +71,13 @@ Route::prefix('/admin')->middleware(['auth','verified'])->group(function () {
      * PARTNERS
      */
     Route::resource('partners', Admin\PartnerController::class);
+
+    /**
+     * PRODUCT ENTER
+     */
+    Route::prefix('product-enter')->group(function () {
+        Route::get('', [Admin\ProductEnterController::class, 'index'])->name('product-enter.index');
+        Route::get('/create', [Admin\ProductEnterController::class, 'create'])->name('product-enter.create');
+        Route::post('/store', [Admin\ProductEnterController::class, 'store'])->name('product-enter.store');
+    });
 });

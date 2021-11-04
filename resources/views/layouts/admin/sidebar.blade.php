@@ -29,6 +29,13 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-header">TRANSACTIONS</li>
+                <li class="nav-item">
+                    <a href="{{ route('product-enter.index') }}" class="nav-link {{ set_active(['product-enter.index','product-enter.edit']) }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Barang Masuk</p>
+                    </a>
+                </li>
                 <li class="nav-header">DATA MASTER</li>
                 {{-- <li class="nav-item">
                     <a href="{{ route('products.create') }}" class="nav-link {{ set_active('products.create') }}">
