@@ -66,4 +66,9 @@ Route::prefix('/admin')->middleware(['auth','verified'])->group(function () {
      * PRODUCTS
      */
     Route::resource('products', Admin\ProductController::class);
+
+    /**
+     * PARTNERS
+     */
+    Route::resource('partners', Admin\PartnerController::class);
 });

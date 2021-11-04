@@ -29,13 +29,13 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-header">PRODUCTS</li>
-                <li class="nav-item">
+                <li class="nav-header">DATA MASTER</li>
+                {{-- <li class="nav-item">
                     <a href="{{ route('products.create') }}" class="nav-link {{ set_active('products.create') }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Upload Product</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('products.index') }}" class="nav-link {{ set_active(['products.index','products.edit']) }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -46,6 +46,12 @@
                     <a href="{{ route('categories.index') }}" class="nav-link {{ set_active('categories*') }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Kategori</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('partners.index') }}" class="nav-link {{ set_active('partners*') }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Partners</p>
                     </a>
                 </li>
                 @role('super-admin|admin')

@@ -1,17 +1,16 @@
 @extends('layouts.admin.app')
-@section('title', 'Products')
-@section('styles')
+@section('title', 'Partners')
+@push('styles')
 
-@endsection
-
+@endpush
 @section('content-header')
 <div class="col-sm-6">
-    <h1>Produk</h1>
+    <h1>Partners</h1>
 </div>
 <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item active">Products</li>
+        <li class="breadcrumb-item active">Partners</li>
     </ol>
 </div>
 @endsection
@@ -19,49 +18,41 @@
 @include('layouts.messages')
 <div class="row py-4 mx-4">
     <div class="col-md-12">
-        <div class="card py-4">
+        <div class="card">
             <div class="card-header">
-                <a href="{{ route('products.create') }}" class="btn btn-sm btn-warning">
+                <a href="{{ route('partners.create') }}" class="btn btn-sm btn-warning">
                     <i class="fas fa-plus"></i>
-                    Tambah Produk
+                    Tambah Partner
                 </a>
                 <div class="card-tools">
                     <ul class="pagination pagination-sm float-right">
-                        {{ $products->links() }}
+                        {{ $partners->links() }}
                     </ul>
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
-                <table class="table table-sm table-responsive-sm table-responsive-md">
+                <table class="table">
                     <thead>
                         <tr>
                             <th style="width: 10px">#</th>
                             <th style="width: 40%">Nama</th>
-                            <th>Kategori</th>
-                            <th>Stok</th>
-                            <th>Harga</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $no => $item)
+                        @foreach ($partners as $no => $item)
                         <tr>
                             <td>{{ $no+1 }}</td>
                             <td class="text-wrap">
                                 {{ $item->name }}
-                                <br>
-                                <span class="text-muted">{{ $item->sku }}</span>
                             </td>
-                            @if ($item->category)
-                            <td>{{ $item->category->name }}</td>
-                            @else
-                            <td>---</td>
-                            @endif
-                            <td>{{ $item->stock }}</td>
-                            <td>{{ $item->price }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->phone}}</td>
                             <td>
-                                <a href="{{ route('products.edit', $item) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ route('partners.edit', $item) }}" class="btn btn-sm btn-primary">Edit</a>
                             </td>
                         </tr>
                         @endforeach
@@ -75,6 +66,6 @@
 
 @endsection
 
-@push('script')
+@push('scripts')
 
 @endpush
