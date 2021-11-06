@@ -20,4 +20,8 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function enterDetail()
+    {
+        return $this->hasMany(ProductEnterDetail::class);
+    }
 }

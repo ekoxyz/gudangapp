@@ -36,6 +36,20 @@
                         <input type="number" class="form-control" id="driver_phone" name="driver_phone"
                             placeholder="08123...">
                     </div>
+                    <div class="form-group col-md-3">
+                        <label for="partner_id">Partner</label>
+                        <select name="partner_id" id="partner_id" class="form-control"
+                            style="max-width: 100% !important">
+                            <option value=""></option>
+                            @foreach ($partners as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-9">
+                        <label for="description">Notes</label>
+                        <textarea class="form-control" id="description" name="description" rows="5" placeholder="isikan catatan, kosongkan jika tidak ada"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,15 +61,16 @@
                 <div class="card-body p-4">
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <select name="product_id[]" id="product_id" class="form-control select2bs4"
+                            <select name="product_id[]" class="form-control select2bs4"
                                 style="max-width: 100% !important">
+                                <option value=""></option>
                                 @foreach ($products as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" >{{ $item->name .'[' . $item->id . ']' }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="number" class="form-control" id="quantity" name="quantity[]"
+                            <input type="number" class="form-control" name="quantity[]"
                                 placeholder="Kuantiti.">
                         </div>
                         <div class="form-group col-md-2">
@@ -67,7 +82,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>
@@ -75,23 +90,10 @@
 </form>
 
 {{-- FORM UNTUK DICOPY --}}
-<div id="copy-form" hidden>
-    <div class="row product-group">
-        <div class="form-group col-md-8">
-            <select name="product_id[]" id="product_id" class="form-control"
-                style="max-width: 100% !important">
-                @foreach ($products as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <input type="number" class="form-control" id="quantity" name="quantity[]" placeholder="Kuantiti">
-        </div>
-        <div class="form-group col-md-2">
-            <button type="button" class="btn btn-danger btn-remove">Hapus</button>
-        </div>
-    </div>
+<div hidden id="data-select">
+    @foreach ($products as $item)
+    <option value="{{ $item->id }}">{{ $item->name }}</option>
+    @endforeach
 </div>
 @endsection
 
@@ -99,15 +101,39 @@
 <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        // $('.select2').select2();
         $('.select2bs4').select2({
-            theme: 'bootstrap4'
+            theme: 'bootstrap4',
+            placeholder: "Select a Product"
+        });
+        $('#partner_id').select2({
+            theme: 'bootstrap4',
+            placeholder: "Select a Partner"
         });
     });
 
-    $('body').on('click', '.btn-addmore', function () {
-        let copyForm = $('#copy-form').html();
+    $(document).on('click', '.btn-addmore', function () {
+        let copyForm = `
+        <div class="row product-group">
+        <div class="form-group col-md-8 select-div">
+            <select name="product_id[]" class="form-control new-select" style="max-width: 100% !important">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <input type="number" class="form-control" name="quantity[]" placeholder="Kuantiti">
+        </div>
+        <div class="form-group col-md-2">
+            <button type="button" class="btn btn-danger btn-remove">Hapus</button>
+        </div>
+    </div>
+        `;
         $('#add-more').append(copyForm);
+        let dataSelect = $('#data-select').html();
+        $('.new-select').append(dataSelect);
+        $('.new-select').select2({
+            theme: 'bootstrap4',
+            placeholder: "Select a Product"
+        });
     });
     $('body').on('click', '.btn-remove', function () {
         console.log('hapus');

@@ -11,4 +11,16 @@ class ProductEnter extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'product_enter';
+
+    /**
+     * Relation
+     */
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id');
+    }
+    public function enterDetail()
+    {
+        return $this->hasMany(ProductEnterDetail::class);
+    }
 }
