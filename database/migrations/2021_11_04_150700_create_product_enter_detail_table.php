@@ -20,7 +20,6 @@ class CreateProductEnterDetailTable extends Migration
             $table->integer('quantity');
             $table->string('notes')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -9,12 +9,14 @@ use App\Models\ProductEnter;
 use App\Models\ProductEnterDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductEnterController extends Controller
 {
     public function index()
     {
-        return view('admin.product-enter.index');
+        $productEnters = ProductEnter::orderBy('id', 'DESC')->paginate(10);
+        return view('admin.product-enter.index', compact('productEnters'));
     }
     public function create()
     {
@@ -40,6 +42,7 @@ class ProductEnterController extends Controller
         $newProductEnter->driver_name = $request->driver_name;
         $newProductEnter->driver_phone = $request->driver_phone;
         $newProductEnter->description = $request->description;
+        $newProductEnter->created_by = Auth::user()->email;
         $newProductEnter->save();
 
         $productEnterDetail = [];
@@ -60,6 +63,21 @@ class ProductEnterController extends Controller
             }
         }
         ProductEnterDetail::insert($productEnterDetail);
-        return back()->with('success', 'Success Menambah Data!');
+        return back()->with('success', 'Berhasil Menambah Data!');
+    }
+
+    public function edit($id)
+    {
+        $productEnter = ProductEnter::with('enterDetail')->findorFail($id);
+        $products = Product::all();
+        $partners = Partner::all();
+        return view('admin.product-enter.edit', compact('productEnter','products', 'partners'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $productEnter = ProductEnter::findOrFail($id);
+
+        return $request->submit;
     }
 }

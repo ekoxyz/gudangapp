@@ -79,5 +79,15 @@ Route::prefix('/admin')->middleware(['auth','verified'])->group(function () {
         Route::get('', [Admin\ProductEnterController::class, 'index'])->name('product-enter.index');
         Route::get('/create', [Admin\ProductEnterController::class, 'create'])->name('product-enter.create');
         Route::post('/store', [Admin\ProductEnterController::class, 'store'])->name('product-enter.store');
+        Route::get('/{id}/edit', [Admin\ProductEnterController::class, 'edit'])->name('product-enter.edit');
+        Route::put('/{id}/update', [Admin\ProductEnterController::class, 'update'])->name('product-enter.update');
+    });
+
+    /**
+     * PRODUCT ENTER DETAIL
+     */
+    Route::prefix('product-enter-detail')->group(function () {
+        Route::delete('/{id}/delete', [Admin\ProductEnterDetailController::class, 'destroy'])->name('product-enter-detail.destroy');
+
     });
 });

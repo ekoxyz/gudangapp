@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductEnterDetail extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'product_enter_detail';
     protected $fillable = [
         'product_id',
@@ -28,5 +28,9 @@ class ProductEnterDetail extends Model
     {
         return $this->belongsTo(ProductEnter::class, 'product_enter_id');
     }
+
+    /**
+     * get Attribute
+     */
 
 }

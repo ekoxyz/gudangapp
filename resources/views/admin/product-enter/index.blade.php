@@ -9,29 +9,55 @@
     <div class="col-md-12">
         <div class="card py-4">
             <div class="card-header">
-                <a href="{{ route('product-enter.create') }}" class="btn btn-sm btn-warning">
+                <a href="{{ route('product-enter.create') }}" class="btn btn-warning">
                     <i class="fas fa-plus"></i>
                     Tambah Barang Masuk
                 </a>
                 <div class="card-tools">
                     <ul class="pagination pagination-sm float-right">
-                        {{-- {{ $products->links() }} --}}
+                        {{ $productEnters->links() }}
                     </ul>
                 </div>
             </div>
             <div class="card-body p-0">
-                <table class="table table-sm table-responsive-sm table-responsive-md">
+                <table class="table table-responsive-md table-striped table-hover">
                     <thead>
                         <tr>
-                            <th style="width: 10px">#</th>
-                            <th style="width: 40%">Nama</th>
-                            <th>Kategori</th>
-                            <th>Stok</th>
-                            <th>Harga</th>
+                            <th>Tanggal</th>
+                            <th>Plat Nomor</th>
+                            <th>Nama Driver</th>
+                            <th>Total Qty</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($productEnters as $item)
+                        <tr>
+                            <td>{{$item->date}}</td>
+                            <td>{{$item->plat_number}}</td>
+                            <td>
+                                {{$item->driver_name}} <br>
+                                <span class="text-muted">{{$item->driver_phone}}</span>
+
+                            </td>
+                            <td>{{$item->enterDetail->sum('quantity')}}</td>
+                            <td>
+                                <form id="delete-form" action="#" method="POST" class=""
+                                    onsubmit="return confirm('Delete this User Permanently?')">
+                                    @csrf
+                                    @method('delete')
+                                    <div class="btn-group">
+                                        <a href="{{ route('product-enter.edit', $item->id) }}" class="btn btn-sm btn-info btn-edit"> <i
+                                            class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
 
                     </tbody>
                 </table>

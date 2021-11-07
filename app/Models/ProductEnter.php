@@ -23,4 +23,13 @@ class ProductEnter extends Model
     {
         return $this->hasMany(ProductEnterDetail::class);
     }
+
+    /**
+     * get Attribute
+     */
+    public function getCreatedAttribute()
+    {
+        return $this->created_by;
+    }
+
 }
