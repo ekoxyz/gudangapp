@@ -87,7 +87,6 @@ Route::prefix('/admin')->middleware(['auth','verified'])->group(function () {
      * PRODUCT ENTER DETAIL
      */
     Route::prefix('product-enter-detail')->group(function () {
-        Route::delete('/{id}/delete', [Admin\ProductEnterDetailController::class, 'destroy'])->name('product-enter-detail.destroy');
-
+        Route::delete('/delete', [Admin\ProductEnterDetailController::class, 'destroy'])->name('product-enter-detail.destroy');
     });
 });

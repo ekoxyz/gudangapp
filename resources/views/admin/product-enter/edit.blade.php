@@ -8,6 +8,8 @@
 
 @section('content')
 @include('layouts.messages')
+<div id="alert">
+</div>
 <form action="{{ route('product-enter.update', $productEnter->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -63,8 +65,9 @@
                     <h3 class="card-title">Detail Barang</h3>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row">
-                        @foreach ($productEnter->enterDetail as $detail)
+                    @foreach ($productEnter->enterDetail as $detail)
+                    <div class="row product-group">
+                        <input type="hidden" name="detail_id[]" value="{{ $detail->id }}">
                         <div class="form-group col-md-8">
                             <select name="product_id[]" class="form-control select2bs4"
                                 style="max-width: 100% !important">
@@ -81,20 +84,17 @@
                                 value="{{ $detail->quantity }}">
                         </div>
                         <div class="form-group col-md-2">
-                            <form id="delete-form" action="{{ route('product-enter-detail.destroy', $detail->id) }}" method="POST"
-                                    class="" onsubmit="return confirm('Delete this Data Permanently?')">
-                                    @csrf
-                                    @method('delete')
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-success btn-addmore"><i class="fas fa-plus"></i></button>
-                                        <button type="submit" class="btn btn-sm btn-danger" name="submit" value="delete">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                </form>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success btn-addmore"><i
+                                        class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                    data-id="{{ $detail->id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
                         </div>
-                        @endforeach
                     </div>
+                    @endforeach
                     <div id="add-more">
                         {{-- TEMPAT FORM INPUT BARU --}}
                     </div>
@@ -133,12 +133,12 @@
         let copyForm = `
         <div class="row product-group">
         <div class="form-group col-md-8 select-div">
-            <select name="product_id[]" class="form-control new-select" style="max-width: 100% !important">
+            <select name="new_product_id[]" class="form-control new-select" style="max-width: 100% !important">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group col-md-2">
-            <input type="number" class="form-control" name="quantity[]" placeholder="Kuantiti">
+            <input type="number" class="form-control" name="new_quantity[]" placeholder="Kuantiti">
         </div>
         <div class="form-group col-md-2">
             <button type="button" class="btn btn-danger btn-remove">Hapus</button>
@@ -154,11 +154,41 @@
         });
     });
     $('body').on('click', '.btn-remove', function () {
-        console.log('hapus');
         $(this).parents('.product-group').empty();
     });
 
-    
+    /**
+     * for delete database using ajax
+     */
+    $(document).on('click', '.btn-delete', function () {
+        if (!confirm("Yakin dihapus?")) {
+            return false;
+        }
+
+        $(this).parents('.product-group').empty();
+        let id = $(this).data('id');
+        $.ajax({
+            url: `{{ route('product-enter-detail.destroy') }}`,
+            method: 'DELETE',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                id: id
+            },
+            success: function (response) {
+                let alert = `
+                <div class="alert alert-info alert-dismissible show fade" role="alert">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>`+
+                        response.message+`
+                    </div>
+                </div>
+                `;
+                $('#alert').append(alert);
+            }
+        });
+    });
 
 </script>
 @endpush

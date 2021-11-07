@@ -77,7 +77,65 @@ class ProductEnterController extends Controller
     public function update(Request $request, $id)
     {
         $productEnter = ProductEnter::findOrFail($id);
+        $productEnter->partner_id = $request->partner_id;
+        $productEnter->date = Carbon::parse($request->date);
+        $productEnter->plat_number = $request->plat_number;
+        $productEnter->driver_name = $request->driver_name;
+        $productEnter->driver_phone = $request->driver_phone;
+        $productEnter->description = $request->description;
+        $productEnter->updated_by = Auth::user()->email;
+        $productEnter->update();
 
-        return $request->submit;
+        /**
+         * Udate the detail is exist
+         */
+        $lenght = sizeof($request->detail_id);
+        $detail_id = $request->detail_id;
+        $product_id = $request->product_id;
+        $quantity = $request->quantity;
+        for ($i = 0; $i < $lenght; $i++) {
+            $detail_enter = ProductEnterDetail::findOrFail($detail_id[$i]);
+            $product = Product::findOrFail($product_id[$i]);
+            if ($product) {
+                /**
+                 * Inisiasi data
+                 */
+                $oldQty = $detail_enter->quantity;
+                $newQty = $quantity[$i];
+                $oldStock = $product->stock;
+                $newStock = ($newQty-$oldQty)+$oldStock;
+
+                /**
+                 * Save Data
+                 */
+                $detail_enter->quantity = $newQty;
+                $detail_enter->update();
+                $product->stock = $newStock;
+                $product->update();
+            }
+        }
+
+        /**
+         * Add new data from update form
+         */
+        $newProductEnterDetail = [];
+        $newLenght = sizeof($request->new_product_id);
+        $newProductId = $request->new_product_id;
+        $newQuantity = $request->new_quantity;
+        for ($i = 0; $i < $newLenght; $i++) {
+            $product = Product::findOrFail($newProductId[$i]);
+            if ($product) {
+                $data = [
+                    'product_id' => $newProductId[$i],
+                    'product_enter_id' => $productEnter->id,
+                    'quantity' => $newQuantity[$i]
+                ];
+                array_push($newProductEnterDetail, $data);
+                $product->stock += $newQuantity[$i];
+                $product->update();
+            }
+        }
+        ProductEnterDetail::insert($newProductEnterDetail);
+        return back()->with('success', 'Berhasil Update Data!');
     }
 }

@@ -9,13 +9,16 @@ use Illuminate\Http\Request;
 
 class ProductEnterDetailController extends Controller
 {
-    public function destroy($id)
+    public function destroy()
     {
+        $id = request('id');
         $detail = ProductEnterDetail::findorFail($id);
         $product = Product::findOrFail($detail->product_id);
         $product->stock -= $detail->quantity;
         $product->update();
         $detail->forceDelete();
-        return back()->with('success','Berhasil Hapus Data.');
+        return response()->json([
+            'message' => 'Success Delete'
+        ]);
     }
 }

@@ -1,5 +1,8 @@
 # CHANGE LOG
 
+# 2021-11-08
+
+- Update Data Detail barang masuk dan menambahakn item barang masuk
 # 2021-11-07
 
 - Delete Product Enter Detail from edit page

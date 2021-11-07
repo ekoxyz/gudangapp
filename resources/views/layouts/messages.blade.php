@@ -22,7 +22,7 @@
 @endif
 
 @if ($message = Session::get('success'))
-<div class="alert alert-info alert-dismissible show fade" role="alert">
+<div class="alert alert-success alert-dismissible show fade" role="alert">
     <div class="alert-body">
         <button class="close" data-dismiss="alert">
             <span>&times;</span>
