@@ -109,7 +109,8 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->status = $request->status;
-        return $product;
+        $product->update();
+        return back()->with('success', 'Berhasil Update Data!');
     }
 
     /**

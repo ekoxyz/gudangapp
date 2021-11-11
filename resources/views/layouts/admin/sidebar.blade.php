@@ -36,6 +36,12 @@
                         <p>Barang Masuk</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('product-exit.index') }}" class="nav-link {{ set_active(['product-exit.index','product-exit.edit', 'product-exit.create']) }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Barang Keluar</p>
+                    </a>
+                </li>
                 <li class="nav-header">DATA MASTER</li>
                 {{-- <li class="nav-item">
                     <a href="{{ route('products.create') }}" class="nav-link {{ set_active('products.create') }}">
@@ -44,7 +50,7 @@
                     </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a href="{{ route('products.index') }}" class="nav-link {{ set_active(['products.index','products.edit']) }}">
+                    <a href="{{ route('products.index') }}" class="nav-link {{ set_active(['products.index','products.edit', 'products.create']) }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Daftar Product</p>
                     </a>

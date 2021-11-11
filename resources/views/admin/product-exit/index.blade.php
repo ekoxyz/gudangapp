@@ -1,5 +1,5 @@
 @extends('layouts.admin.app')
-@section('title', 'Product Enter')
+@section('title', 'Barang Keluar')
 @push('styles')
 
 @endpush
@@ -9,13 +9,13 @@
     <div class="col-md-12">
         <div class="card py-4">
             <div class="card-header">
-                <a href="{{ route('product-enter.create') }}" class="btn btn-warning">
+                <a href="{{ route('product-exit.create') }}" class="btn btn-warning">
                     <i class="fas fa-plus"></i>
-                    Tambah Barang Masuk
+                    Tambah Barang Keluar
                 </a>
                 <div class="card-tools">
                     <ul class="pagination pagination-sm float-right">
-                        {{ $productEnters->links() }}
+                        {{ $productExits->links() }}
                     </ul>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($productEnters as $item)
+                        @foreach ($productExits as $item)
                         <tr>
                             <td>{{$item->date}}</td>
                             <td>{{$item->plat_number}}</td>
@@ -40,14 +40,14 @@
                                 <span class="text-muted">{{$item->driver_phone}}</span>
 
                             </td>
-                            <td>{{$item->enterDetail->sum('quantity')}}</td>
+                            <td>{{$item->detail->sum('quantity')}}</td>
                             <td>
                                 <form id="delete-form" action="#" method="POST" class=""
                                     onsubmit="return confirm('Delete this User Permanently?')">
                                     @csrf
                                     @method('delete')
                                     <div class="btn-group">
-                                        <a href="{{ route('product-enter.edit', $item->id) }}" class="btn btn-sm btn-info btn-edit"> <i
+                                        <a href="{{ route('product-exit.edit', $item->id) }}" class="btn btn-sm btn-info btn-edit"> <i
                                             class="fas fa-pencil-alt"></i>
                                         </a>
                                         {{-- <button type="submit" class="btn btn-sm btn-danger">

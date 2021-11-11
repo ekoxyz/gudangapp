@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductEnterTable extends Migration
+class CreateProductExitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,19 @@ class CreateProductEnterTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_enters', function (Blueprint $table) {
+        Schema::create('product_exits', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('partner_id')->nullable();
             $table->date('date');
             $table->string('plat_number')->nullable();
             $table->string('driver_name')->nullable();
             $table->string('driver_phone')->nullable();
             $table->string('description')->nullable();
+            $table->string('address')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('partner_id')->references('id')->on('partners');
         });
     }
 
@@ -38,6 +36,6 @@ class CreateProductEnterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_enter');
+        Schema::dropIfExists('product_exits');
     }
 }

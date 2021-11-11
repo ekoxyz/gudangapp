@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductEnterDetailTable extends Migration
+class CreateProductExitDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateProductEnterDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_enter_details', function (Blueprint $table) {
+        Schema::create('product_exit_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('product_enter_id');
+            $table->unsignedBigInteger('product_exit_id');
             $table->integer('quantity');
             $table->string('notes')->nullable();
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateProductEnterDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_enter_detail');
+        Schema::dropIfExists('product_exit_details');
     }
 }

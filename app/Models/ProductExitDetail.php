@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductEnterDetail extends Model
+class ProductExitDetail extends Model
 {
     use HasFactory;
-    protected $table = 'product_enter_details';
+    protected $table = 'product_exit_details';
+
     protected $fillable = [
         'product_id',
-        'product_enter_id',
+        'product_exit_id',
         'quantity'
     ];
 
@@ -24,13 +24,9 @@ class ProductEnterDetail extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
-    public function enter()
+    public function exit()
     {
-        return $this->belongsTo(ProductEnter::class, 'product_enter_id');
+        return $this->belongsTo(ProductExit::class, 'product_exit_id');
     }
-
-    /**
-     * get Attribute
-     */
 
 }

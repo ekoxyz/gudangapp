@@ -89,4 +89,22 @@ Route::prefix('/admin')->middleware(['auth','verified'])->group(function () {
     Route::prefix('product-enter-detail')->group(function () {
         Route::delete('/delete', [Admin\ProductEnterDetailController::class, 'destroy'])->name('product-enter-detail.destroy');
     });
+
+    /**
+     * PRODUCT EXIT
+     */
+    Route::prefix('product-exit')->group(function () {
+        Route::get('', [Admin\ProductExitController::class, 'index'])->name('product-exit.index');
+        Route::get('/create', [Admin\ProductExitController::class, 'create'])->name('product-exit.create');
+        Route::post('/store', [Admin\ProductExitController::class, 'store'])->name('product-exit.store');
+        Route::get('/{id}/edit', [Admin\ProductExitController::class, 'edit'])->name('product-exit.edit');
+        Route::put('/{id}/edit', [Admin\ProductExitController::class, 'update'])->name('product-exit.update');
+    });
+    /**
+     * PRODUCT ENTER DETAIL
+     */
+    Route::prefix('product-exit-detail')->group(function () {
+        Route::delete('/delete', [Admin\ProductExitDetailController::class, 'destroy'])->name('product-exit-detail.destroy');
+    });
+
 });

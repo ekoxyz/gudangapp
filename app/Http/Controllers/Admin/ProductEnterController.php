@@ -71,7 +71,7 @@ class ProductEnterController extends Controller
         $productEnter = ProductEnter::with('enterDetail')->findorFail($id);
         $products = Product::all();
         $partners = Partner::all();
-        return view('admin.product-enter.edit', compact('productEnter','products', 'partners'));
+        return view('admin.product-enter.edit', compact('productEnter', 'products', 'partners'));
     }
 
     public function update(Request $request, $id)
@@ -103,12 +103,15 @@ class ProductEnterController extends Controller
                 $oldQty = $detail_enter->quantity;
                 $newQty = $quantity[$i];
                 $oldStock = $product->stock;
-                $newStock = ($newQty-$oldQty)+$oldStock;
+                // $newStock = ($newQty - $oldQty) + $oldStock;
+                $newStock = ($oldStock-$oldQty)+$newQty;
+
 
                 /**
                  * Save Data
                  */
                 $detail_enter->quantity = $newQty;
+                // $detail_enter->product_id = $;
                 $detail_enter->update();
                 $product->stock = $newStock;
                 $product->update();
@@ -118,24 +121,26 @@ class ProductEnterController extends Controller
         /**
          * Add new data from update form
          */
-        $newProductEnterDetail = [];
-        $newLenght = sizeof($request->new_product_id);
-        $newProductId = $request->new_product_id;
-        $newQuantity = $request->new_quantity;
-        for ($i = 0; $i < $newLenght; $i++) {
-            $product = Product::findOrFail($newProductId[$i]);
-            if ($product) {
-                $data = [
-                    'product_id' => $newProductId[$i],
-                    'product_enter_id' => $productEnter->id,
-                    'quantity' => $newQuantity[$i]
-                ];
-                array_push($newProductEnterDetail, $data);
-                $product->stock += $newQuantity[$i];
-                $product->update();
+        if ($request->new_product_id) {
+            $newProductEnterDetail = [];
+            $newLenght = sizeof($request->new_product_id);
+            $newProductId = $request->new_product_id;
+            $newQuantity = $request->new_quantity;
+            for ($i = 0; $i < $newLenght; $i++) {
+                $product = Product::findOrFail($newProductId[$i]);
+                if ($product) {
+                    $data = [
+                        'product_id' => $newProductId[$i],
+                        'product_enter_id' => $productEnter->id,
+                        'quantity' => $newQuantity[$i]
+                    ];
+                    array_push($newProductEnterDetail, $data);
+                    $product->stock += $newQuantity[$i];
+                    $product->update();
+                }
             }
+            ProductEnterDetail::insert($newProductEnterDetail);
         }
-        ProductEnterDetail::insert($newProductEnterDetail);
         return back()->with('success', 'Berhasil Update Data!');
     }
 }

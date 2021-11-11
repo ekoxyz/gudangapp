@@ -65,7 +65,7 @@
                                 style="max-width: 100% !important">
                                 <option value=""></option>
                                 @foreach ($products as $item)
-                                <option value="{{ $item->id }}" >{{ $item->name .'[' . $item->id . ']' }}</option>
+                                <option value="{{ $item->id }}" >{{ $item->name .' [' . $item->id . ']' }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -92,7 +92,7 @@
 {{-- FORM UNTUK DICOPY --}}
 <div hidden id="data-select">
     @foreach ($products as $item)
-    <option value="{{ $item->id }}">{{ $item->name }}</option>
+    <option value="{{ $item->id }}">{{ $item->name .' [' . $item->id . ']'}}</option>
     @endforeach
 </div>
 @endsection

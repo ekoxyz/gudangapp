@@ -6,22 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductEnter extends Model
+class ProductExit extends Model
 {
     use HasFactory, SoftDeletes;
-
-    protected $table = 'product_enters';
+    protected $table = 'product_exits';
 
     /**
      * Relation
      */
-    public function partner()
+    public function detail()
     {
-        return $this->belongsTo(Partner::class, 'partner_id');
-    }
-    public function enterDetail()
-    {
-        return $this->hasMany(ProductEnterDetail::class);
+        return $this->hasMany(ProductExitDetail::class);
     }
 
     /**
@@ -31,5 +26,4 @@ class ProductEnter extends Model
     {
         return $this->created_by;
     }
-
 }

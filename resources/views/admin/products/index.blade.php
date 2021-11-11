@@ -21,7 +21,7 @@
     <div class="col-md-12">
         <div class="card py-4">
             <div class="card-header">
-                <a href="{{ route('products.create') }}" class="btn btn-sm btn-warning">
+                <a href="{{ route('products.create') }}" class="btn  btn-warning">
                     <i class="fas fa-plus"></i>
                     Tambah Produk
                 </a>
