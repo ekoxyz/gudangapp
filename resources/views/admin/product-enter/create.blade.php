@@ -3,7 +3,12 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+<style>
+    .stock-limit {
+        display: none;
+    }
 
+</style>
 @endpush
 
 @section('content')
@@ -48,7 +53,8 @@
                     </div>
                     <div class="form-group col-md-9">
                         <label for="description">Notes</label>
-                        <textarea class="form-control" id="description" name="description" rows="5" placeholder="isikan catatan, kosongkan jika tidak ada"></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="5"
+                            placeholder="isikan catatan, kosongkan jika tidak ada"></textarea>
                     </div>
                 </div>
             </div>
@@ -65,13 +71,13 @@
                                 style="max-width: 100% !important">
                                 <option value=""></option>
                                 @foreach ($products as $item)
-                                <option value="{{ $item->id }}" >{{ $item->name .' [' . $item->id . ']' }}</option>
+                                <option value="{{ $item->id }}">{{ $item->name .' [' . $item->stock . ']' }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="number" class="form-control" name="quantity[]"
-                                placeholder="Kuantiti.">
+                            <input type="number" class="form-control quantity" name="quantity[]" placeholder="Kuantiti.">
+                            <div class="text-danger stock-limit">Minimal kuantiti adalah 1.</div>
                         </div>
                         <div class="form-group col-md-2">
                             <button type="button" class="btn btn-success btn-addmore">Tambah</button>
@@ -82,7 +88,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save">Simpan</button>
                 </div>
             </div>
         </div>
@@ -92,7 +98,7 @@
 {{-- FORM UNTUK DICOPY --}}
 <div hidden id="data-select">
     @foreach ($products as $item)
-    <option value="{{ $item->id }}">{{ $item->name .' [' . $item->id . ']'}}</option>
+    <option value="{{ $item->id }}">{{ $item->name .' [' . $item->stock . ']'}}</option>
     @endforeach
 </div>
 @endsection
@@ -120,7 +126,8 @@
             </select>
         </div>
         <div class="form-group col-md-2">
-            <input type="number" class="form-control" name="quantity[]" placeholder="Kuantiti">
+            <input type="number" class="form-control quantity" name="quantity[]" placeholder="Kuantiti">
+            <div class="text-danger stock-limit">Minimal kuantiti adalah 1.</div>
         </div>
         <div class="form-group col-md-2">
             <button type="button" class="btn btn-danger btn-remove">Hapus</button>
@@ -138,6 +145,17 @@
     $('body').on('click', '.btn-remove', function () {
         console.log('hapus');
         $(this).parents('.product-group').empty();
+    });
+
+    $(document).on('keyup', '.quantity', function () {
+        let divLimit = $(this).next();
+        divLimit.hide();
+        $('#btn-save').prop('disabled', false);
+        let qty = $(this).val();
+        if (qty < 0) {
+            divLimit.show();
+            $('#btn-save').prop('disabled', true);
+        }
     });
 
 </script>

@@ -42,10 +42,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'sku' => ['required'],
+            'sku' => ['required', 'unique:products,sku'],
             'name' => ['required', 'min:6', 'max:20'],
             'description' => ['max:250'],
-            'price' => ['min:1'],
             'stock' => ['min:1']
         ]);
         $newProduct = new Product();

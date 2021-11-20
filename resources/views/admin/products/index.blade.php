@@ -40,7 +40,7 @@
                             <th style="width: 40%">Nama</th>
                             <th>Kategori</th>
                             <th>Stok</th>
-                            <th>Harga</th>
+                            {{-- <th>Harga</th> --}}
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -59,7 +59,7 @@
                             <td>---</td>
                             @endif
                             <td>{{ $item->stock }}</td>
-                            <td>{{ $item->price }}</td>
+                            {{-- <td>{{ $item->price }}</td> --}}
                             <td>
                                 <a href="{{ route('products.edit', $item) }}" class="btn btn-sm btn-primary">Edit</a>
                             </td>
