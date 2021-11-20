@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductExit;
 use App\Models\ProductExitDetail;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class ProductExitController extends Controller
         $productExit->driver_phone = $request->driver_phone;
         $productExit->description = $request->description;
         $productExit->address = $request->address;
-        $productExit->updated_by = Auth::user()->email;
+        $productExit->updated_by = User::authEmail();
         $productExit->update();
 
         /**
@@ -80,25 +81,42 @@ class ProductExitController extends Controller
         $detail_id = $request->detail_id;
         $product_id = $request->product_id;
         $quantity = $request->quantity;
+
         for ($i = 0; $i < $lenght; $i++) {
-            $detail_enter = ProductExitDetail::findOrFail($detail_id[$i]);
-            $product = Product::findOrFail($product_id[$i]);
-            if ($product) {
-                /**
-                 * Inisiasi data
-                 */
-                $oldQty = $detail_enter->quantity;
-                $newQty = $quantity[$i];
-                $oldStock = $product->stock;
+            $detail_exit = ProductExitDetail::findOrFail($detail_id[$i]);
+            $oldProduct = Product::findOrFail($detail_exit->product_id);
+            $newProduct = Product::findOrFail($product_id[$i]);
+            // $product = Product::findOrFail($product_id[$i]);
+            $oldQty = $detail_exit->quantity;
+            $newQty = $quantity[$i];
+
+            if ($newProduct->id == $oldProduct->id) {
+                $oldStock = $newProduct->stock;
                 $newStock = ($oldStock+$oldQty)-$newQty;
 
+                $detail_exit->quantity = $newQty;
+                $detail_exit->product_id = $newProduct->id;
+                $detail_exit->update();
+                $newProduct->stock = $newStock;
+                $newProduct->updated_by = User::authEmail();
+                $newProduct->update();
+            } else {
                 /**
-                 * Save Data
+                 * mengembalikan stok awal pada produk yang salah pilih
                  */
-                $detail_enter->quantity = $newQty;
-                $detail_enter->update();
-                $product->stock = $newStock;
-                $product->update();
+                $oldProduct->stock += $oldQty;
+                $oldProduct->updated_by = User::authEmail();
+                $oldProduct->update();
+
+                /**
+                 * Menambahkan stok pada item produk yang terpilih
+                 */
+                $detail_exit->quantity = $newQty;
+                $detail_exit->product_id = $newProduct->id;
+                $detail_exit->update();
+                $newProduct->stock -= $newQty;
+                $newProduct->updated_by = User::authEmail();
+                $newProduct->update();
             }
         }
 

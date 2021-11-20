@@ -3,7 +3,12 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+<style>
+    .stock-limit {
+        display: none;
+    }
 
+</style>
 @endpush
 
 @section('content')
@@ -75,13 +80,15 @@
                                 @foreach ($products as $product)
                                 <option value="{{ $product->id }}"
                                     {{$product->id == $detail->product_id ? 'selected':''}}>
-                                    {{ $product->name .'[' . $product->id . ']' }}</option>
+                                    {{ $product->name .'[' . $product->stock . ']' }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="number" class="form-control" name="quantity[]" placeholder="Kuantiti."
+                            <input type="number" class="form-control quantity" name="quantity[]" placeholder="Kuantiti."
                                 value="{{ $detail->quantity }}">
+                            <div class="text-danger stock-limit">Minimal kuantiti adalah 1.</div>
+
                         </div>
                         <div class="form-group col-md-2">
                             <div class="btn-group">
@@ -100,7 +107,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary" name="submit" value="save">Simpan</button>
+                    <button type="submit" class="btn btn-primary" name="submit" value="save" id="btn-save">Simpan</button>
                 </div>
             </div>
         </div>
@@ -110,7 +117,7 @@
 {{-- FORM UNTUK DICOPY --}}
 <div hidden id="data-select">
     @foreach ($products as $item)
-    <option value="{{ $item->id }}">{{ $item->name .'[' . $item->id . ']'}}</option>
+    <option value="{{ $item->id }}">{{ $item->name .'[' . $item->stock . ']'}}</option>
     @endforeach
 </div>
 @endsection
@@ -138,7 +145,9 @@
             </select>
         </div>
         <div class="form-group col-md-2">
-            <input type="number" class="form-control" name="new_quantity[]" placeholder="Kuantiti">
+            <input type="number" class="form-control quantity" name="new_quantity[]" placeholder="Kuantiti">
+            <div class="text-danger stock-limit">Minimal kuantiti adalah 1.</div>
+
         </div>
         <div class="form-group col-md-2">
             <button type="button" class="btn btn-danger btn-remove">Hapus</button>
@@ -180,14 +189,24 @@
                     <div class="alert-body">
                         <button class="close" data-dismiss="alert">
                             <span>&times;</span>
-                        </button>`+
-                        response.message+`
+                        </button>` +
+                    response.message + `
                     </div>
                 </div>
                 `;
                 $('#alert').append(alert);
             }
         });
+    });
+    $(document).on('keyup', '.quantity', function () {
+        let divLimit = $(this).next();
+        divLimit.hide();
+        $('#btn-save').prop('disabled', false);
+        let qty = $(this).val();
+        if (qty < 0) {
+            divLimit.show();
+            $('#btn-save').prop('disabled', true);
+        }
     });
 
 </script>

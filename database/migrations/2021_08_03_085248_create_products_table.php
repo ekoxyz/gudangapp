@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->string('description')->nullable();
             $table->string('image')->nullable();
-            $table->integer('price')->default(0);
-            $table->integer('stock')->default(0);
+            $table->integer('price')->default(0)->nullable();
+            $table->integer('stock')->default(0)->nullable();
             $table->string('status')->default('PUBLISH');
             $table->string('created_by');
             $table->string('updated_by')->nullable();
